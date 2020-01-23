@@ -4,52 +4,43 @@ import io.pivotal.pivmart.config.ProductApiProperties;
 import io.pivotal.pivmart.models.Catalog;
 import io.pivotal.pivmart.repositories.CatalogRepository;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.MediaType;
-import org.springframework.http.RequestEntity;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.net.URI;
 import java.util.List;
 
+import static org.springframework.http.MediaType.APPLICATION_JSON;
+
 @Component
 public class CatalogClient implements CatalogRepository {
-
-    private RestTemplate restTemplate;
+    private WebClient webClient;
     private ProductApiProperties productApiProperties;
 
-    public CatalogClient(RestTemplate restTemplate, ProductApiProperties productApiProperties) {
-        this.restTemplate = restTemplate;
+    public CatalogClient(ProductApiProperties productApiProperties) {
         this.productApiProperties = productApiProperties;
+        this.webClient = WebClient.builder().baseUrl(productApiProperties.getUrl() + "/catalogs").build();
     }
 
     @Override
     public List<Catalog> findAll() {
-        RequestEntity<Void> request = RequestEntity
-                .get(URI.create(productApiProperties.getUrl() + "/catalogs"))
-                .accept(MediaType.APPLICATION_JSON)
-                .build();
-
-        ResponseEntity<List<Catalog>> response = restTemplate.exchange(
-                request,
-                new ParameterizedTypeReference<List<Catalog>>() {
-                }
-        );
-
-        return response.getBody();
+        ParameterizedTypeReference<List<Catalog>> expectedType = new ParameterizedTypeReference<List<Catalog>>() {
+        };
+        return webClient.get()
+                .uri("")
+                .accept(APPLICATION_JSON)
+                .retrieve()
+                .bodyToMono(expectedType)
+                .block();
     }
 
     @Override
     public Catalog findByKey(String catalogKey) {
-        RequestEntity<Void> request = RequestEntity
-                .get(URI.create(productApiProperties.getUrl() + "catalogs/" + catalogKey))
-                .accept(MediaType.APPLICATION_JSON)
-                .build();
-
-        ResponseEntity<Catalog> response = restTemplate.exchange(request,Catalog.class);
-
-        return response.getBody();
+        return webClient.get()
+                .uri(URI.create(productApiProperties.getUrl() + "catalogs/" + catalogKey))
+                .accept(APPLICATION_JSON)
+                .retrieve()
+                .bodyToMono(Catalog.class)
+                .block();
     }
 }

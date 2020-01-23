@@ -26,7 +26,6 @@ ext {
 }
 
 dependencies {
-
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-web'
 
@@ -37,7 +36,6 @@ dependencies {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
     testImplementation 'org.springframework.cloud:spring-cloud-starter-contract-verifier'
-
 }
 
 dependencyManagement {

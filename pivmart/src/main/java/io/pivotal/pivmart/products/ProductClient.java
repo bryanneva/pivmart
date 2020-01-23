@@ -5,57 +5,48 @@ import io.pivotal.pivmart.models.Catalog;
 import io.pivotal.pivmart.models.Product;
 import io.pivotal.pivmart.repositories.ProductRepository;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.MediaType;
-import org.springframework.http.RequestEntity;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.net.URI;
 import java.util.List;
 
+import static org.springframework.http.MediaType.APPLICATION_JSON;
+
 @Component
 public class ProductClient implements ProductRepository {
-    private RestTemplate restTemplate;
+    private WebClient webClient;
     private ProductApiProperties productApiProperties;
 
-    public ProductClient(RestTemplate restTemplate, ProductApiProperties productApiProperties) {
-        this.restTemplate = restTemplate;
+    public ProductClient(ProductApiProperties productApiProperties) {
         this.productApiProperties = productApiProperties;
+        this.webClient = WebClient.builder().baseUrl(productApiProperties.getUrl()).build();
     }
 
     @Override
     public List<Product> findAll() {
-        RequestEntity<Void> requestEntity = RequestEntity
-                .get(URI.create(productApiProperties.getUrl()))
-                .accept(MediaType.APPLICATION_JSON)
-                .build();
-
-        ParameterizedTypeReference<List<Product>> responseType = new ParameterizedTypeReference<List<Product>>() {
+        ParameterizedTypeReference<List<Product>> expectedType = new ParameterizedTypeReference<List<Product>>() {
         };
 
-        ResponseEntity<List<Product>> response = restTemplate.exchange(
-                requestEntity,
-                responseType
-        );
-
-        return response.getBody();
+        return webClient.get()
+                .uri("")
+                .accept(APPLICATION_JSON)
+                .retrieve()
+                .bodyToMono(expectedType)
+                .block();
     }
 
     @Override
     public List<Product> findAllByCatalog(Catalog catalog) {
-        RequestEntity<Void> requestEntity = RequestEntity
-                .get(URI.create(productApiProperties.getUrl() + "?catalog=" + catalog.getCatalogKey()))
-                .accept(MediaType.APPLICATION_JSON)
-                .build();
-        ParameterizedTypeReference<List<Product>> responseType = new ParameterizedTypeReference<List<Product>>() {
+        URI url = URI.create(productApiProperties.getUrl() + "?catalog=" + catalog.getCatalogKey());
+        ParameterizedTypeReference<List<Product>> expectedType = new ParameterizedTypeReference<List<Product>>() {
         };
 
-        ResponseEntity<List<Product>> response = restTemplate.exchange(
-                requestEntity,
-                responseType
-        );
-
-        return response.getBody();
+        return webClient.get()
+                .uri(url)
+                .accept(APPLICATION_JSON)
+                .retrieve()
+                .bodyToMono(expectedType)
+                .block();
     }
 }
