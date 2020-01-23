@@ -16,6 +16,6 @@ public class CatalogService {
     }
 
     public List<Catalog> getAll() {
-        return catalogRepository.findAll();
+        return catalogRepository.findAll().block();
     }
 }

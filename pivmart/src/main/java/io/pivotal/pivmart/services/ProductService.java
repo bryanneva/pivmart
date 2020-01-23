@@ -5,6 +5,7 @@ import io.pivotal.pivmart.models.Product;
 import io.pivotal.pivmart.repositories.CatalogRepository;
 import io.pivotal.pivmart.repositories.ProductRepository;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -20,8 +21,8 @@ public class ProductService {
     }
 
     public List<Product> getForCatalog(String catalogKey) {
-        Catalog catalog = catalogRepository.findByKey(catalogKey);
-        return productRepository.findAllByCatalog(catalog);
+        Mono<Catalog> catalog = catalogRepository.findByKey(catalogKey);
+        return productRepository.findAllByCatalog(catalog.block());
     }
 
     public List<Product> getAll() {

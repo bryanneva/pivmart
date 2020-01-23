@@ -1,11 +1,12 @@
 package io.pivotal.pivmart.repositories;
 
 import io.pivotal.pivmart.models.Catalog;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
 public interface CatalogRepository {
-    List<Catalog> findAll();
+    Mono<List<Catalog>> findAll();
 
-    Catalog findByKey(String catalogKey);
+    Mono<Catalog> findByKey(String catalogKey);
 }

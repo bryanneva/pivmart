@@ -4,52 +4,37 @@ import io.pivotal.pivmart.config.ProductApiProperties;
 import io.pivotal.pivmart.models.Catalog;
 import io.pivotal.pivmart.repositories.CatalogRepository;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
-import org.springframework.http.RequestEntity;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
-import java.net.URI;
 import java.util.List;
 
 @Component
 public class CatalogClient implements CatalogRepository {
 
-    private RestTemplate restTemplate;
+    private WebClient webClient;
     private ProductApiProperties productApiProperties;
 
-    public CatalogClient(RestTemplate restTemplate, ProductApiProperties productApiProperties) {
-        this.restTemplate = restTemplate;
+    public CatalogClient(WebClient webClient, ProductApiProperties productApiProperties) {
+        this.webClient = webClient;
         this.productApiProperties = productApiProperties;
     }
 
     @Override
-    public List<Catalog> findAll() {
-        RequestEntity<Void> request = RequestEntity
-                .get(URI.create(productApiProperties.getUrl() + "/catalogs"))
+    public Mono<List<Catalog>> findAll() {
+        return webClient.get().uri(productApiProperties.getUrl() + "/catalogs")
                 .accept(MediaType.APPLICATION_JSON)
-                .build();
-
-        ResponseEntity<List<Catalog>> response = restTemplate.exchange(
-                request,
-                new ParameterizedTypeReference<List<Catalog>>() {
-                }
-        );
-
-        return response.getBody();
+                .retrieve()
+                .bodyToMono(new ParameterizedTypeReference<List<Catalog>>() {});
     }
 
     @Override
-    public Catalog findByKey(String catalogKey) {
-        ResponseEntity<Catalog> response = restTemplate.exchange(
-                URI.create(productApiProperties.getUrl() + "catalogs/" + catalogKey),
-                HttpMethod.GET,
-                null,
-                Catalog.class
-        );
-
-        return response.getBody();
+    public Mono<Catalog> findByKey(String catalogKey) {
+        return webClient.get().uri(productApiProperties.getUrl() + "catalogs/{catalogKey}", catalogKey)
+                .accept(MediaType.APPLICATION_JSON)
+                .retrieve()
+                .bodyToMono(Catalog.class);
     }
 }
