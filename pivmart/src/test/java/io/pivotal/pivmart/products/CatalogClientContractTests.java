@@ -28,5 +28,4 @@ public class CatalogClientContractTests extends AbstractFakeNexusSetup {
                 .hasSize(4);
 
     }
-
 }
