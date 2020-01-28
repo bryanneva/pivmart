@@ -1,16 +1,25 @@
 package io.pivotal.pivmart;
 
+import io.pivotal.pivmart.models.Catalog;
+import io.pivotal.pivmart.models.Product;
+import io.pivotal.pivmart.products.CatalogClient;
+import io.pivotal.pivmart.products.ProductClient;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
+import java.util.List;
 import java.util.UUID;
 
+import static java.util.Arrays.asList;
 import static org.hamcrest.Matchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -21,6 +30,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 class PivmartApplicationTests {
 
+    @MockBean
+    ProductClient productClient;
+
+    @MockBean
+    CatalogClient catalogClient;
+
     @Autowired
     MockMvc mockMvc;
 
@@ -30,6 +45,9 @@ class PivmartApplicationTests {
 
     @Test
     void products_list() throws Exception {
+        List<Product> products = asList(Product.builder().build());
+        when(productClient.findAllByCatalog(any())).thenReturn(products);
+
         mockMvc.perform(get("/api/products?catalog={catalog}", "electronics"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()", greaterThan(0)))
@@ -41,6 +59,9 @@ class PivmartApplicationTests {
 
     @Test
     void catalogs_list() throws Exception {
+        List<Catalog> catalogs = asList(Catalog.builder().build());
+        when(catalogClient.findAll()).thenReturn(catalogs);
+
         mockMvc.perform(get("/api/catalogs"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.length()", greaterThanOrEqualTo(1)))
