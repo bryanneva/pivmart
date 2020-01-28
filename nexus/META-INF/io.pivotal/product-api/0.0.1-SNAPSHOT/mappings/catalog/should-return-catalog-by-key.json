@@ -1,0 +1,21 @@
+{
+  "id" : "0904abc2-b0ea-4309-8a73-89e806bfee34",
+  "request" : {
+    "url" : "/catalogs/clothes",
+    "method" : "GET",
+    "headers" : {
+      "Accept" : {
+        "equalTo" : "application/json"
+      }
+    }
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\"catalogKey\":\"clothes\",\"displayName\":\"Clothes\",\"id\":\"f94ac11b-a492-4706-aa66-7f7fd47c23a4\"}",
+    "headers" : {
+      "Content-Type" : "application/json"
+    },
+    "transformers" : [ "response-template" ]
+  },
+  "uuid" : "0904abc2-b0ea-4309-8a73-89e806bfee34"
+}

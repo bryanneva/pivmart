@@ -43,12 +43,12 @@ public class CatalogClient implements CatalogRepository {
 
     @Override
     public Catalog findByKey(String catalogKey) {
-        ResponseEntity<Catalog> response = restTemplate.exchange(
-                URI.create(productApiProperties.getUrl() + "catalogs/" + catalogKey),
-                HttpMethod.GET,
-                null,
-                Catalog.class
-        );
+        RequestEntity<Void> request = RequestEntity
+                .get(URI.create(productApiProperties.getUrl() + "catalogs/" + catalogKey))
+                .accept(MediaType.APPLICATION_JSON)
+                .build();
+
+        ResponseEntity<Catalog> response = restTemplate.exchange(request,Catalog.class);
 
         return response.getBody();
     }

@@ -1,0 +1,21 @@
+{
+  "id" : "1fb228f3-a1db-4766-907f-2a7f710ef4c4",
+  "request" : {
+    "url" : "/",
+    "method" : "GET",
+    "headers" : {
+      "Accept" : {
+        "equalTo" : "application/json"
+      }
+    }
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "[{\"id\":\"940459d7-c354-414f-b41b-91f029d59722\",\"catalogId\":\"c882752b-6e81-4a13-bca5-cdb3fa04cecc\",\"name\":\"Nintendo Switch\",\"price\":\"90.99\",\"description\":\"This is a description of Nintendo Switch\",\"imageSrc\":\"https://picsum.photos/id/8/200/300\",\"imageAlt\":\"Product Alt Text\"},{\"id\":\"9d48b03d-94d3-4ec9-b3b4-2c40dbbe98c1\",\"catalogId\":\"f94ac11b-a492-4706-aa66-7f7fd47c23a4\",\"name\":\"T-Shirt\",\"price\":\"20.97\",\"description\":\"This is a description of T-Shirt\",\"imageSrc\":\"https://picsum.photos/id/7/200/300\",\"imageAlt\":\"Product Alt Text\"}]",
+    "headers" : {
+      "Content-Type" : "application/json"
+    },
+    "transformers" : [ "response-template" ]
+  },
+  "uuid" : "1fb228f3-a1db-4766-907f-2a7f710ef4c4"
+}

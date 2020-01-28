@@ -58,6 +58,7 @@ public abstract class CatalogBase {
         fakeCatalogs.add(fakeCatalog4);
 
         when(mockCatalogRepository.findAll()).thenReturn(fakeCatalogs);
+        when(mockCatalogRepository.findByKey("clothes")).thenReturn(fakeCatalog1);
 
         mockMvc(standaloneSetup(this.controller).build());
     }

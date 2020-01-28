@@ -1,0 +1,21 @@
+{
+  "id" : "09a3c2a7-8f55-49ca-a2dc-1da0ff507fb4",
+  "request" : {
+    "url" : "/?catalog=clothes",
+    "method" : "GET",
+    "headers" : {
+      "Accept" : {
+        "equalTo" : "application/json"
+      }
+    }
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "[{\"id\":\"9d48b03d-94d3-4ec9-b3b4-2c40dbbe98c1\",\"catalogId\":\"f94ac11b-a492-4706-aa66-7f7fd47c23a4\",\"name\":\"T-Shirt\",\"price\":\"20.97\",\"description\":\"This is a description of T-Shirt\",\"imageSrc\":\"https://picsum.photos/id/7/200/300\",\"imageAlt\":\"Product Alt Text\"}]",
+    "headers" : {
+      "Content-Type" : "application/json"
+    },
+    "transformers" : [ "response-template" ]
+  },
+  "uuid" : "09a3c2a7-8f55-49ca-a2dc-1da0ff507fb4"
+}

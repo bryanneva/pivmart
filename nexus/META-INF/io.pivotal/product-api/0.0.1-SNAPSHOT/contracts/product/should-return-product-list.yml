@@ -1,0 +1,31 @@
+description: |
+  Returns a list of product entries
+  ```
+  given:
+      any client
+  when:
+      requests products with catalog key
+  then:
+      return product list for that catalog
+  ```
+request:
+  method: GET
+  url: /?catalog=clothes
+  headers:
+    Accept: application/json
+response:
+  status: 200
+  body:
+    - "id": "9d48b03d-94d3-4ec9-b3b4-2c40dbbe98c1"
+      "catalogId": "f94ac11b-a492-4706-aa66-7f7fd47c23a4"
+      "name": "T-Shirt"
+      "price": "20.97"
+      "description": "This is a description of T-Shirt"
+      "imageSrc": "https://picsum.photos/id/7/200/300"
+      "imageAlt": "Product Alt Text"
+  headers:
+    Content-Type: application/json
+  matchers:
+    headers:
+      - key: Content-Type
+        regex: "application/json.*"

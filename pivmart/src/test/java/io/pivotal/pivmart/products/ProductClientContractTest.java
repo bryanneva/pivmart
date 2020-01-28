@@ -1,6 +1,7 @@
 package io.pivotal.pivmart.products;
 
 import io.pivotal.pivmart.models.Catalog;
+import io.pivotal.pivmart.models.Product;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,31 +27,37 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
         properties="stubs.find-producer=true"
 )
 @AutoConfigureJsonTesters
-public class CatalogClientContractTests {
-
+public class ProductClientContractTest {
     @Autowired
-    private CatalogClient catalogClient;
+    ProductClient productClient;
 
     @Test
-    public void findAll() {
-        List<Catalog> catalogs = catalogClient.findAll();
-        assertThat(catalogs)
+    void findAll() {
+        List<Product> products = productClient.findAll();
+        assertThat(products)
                 .isNotNull();
 
-        assertThat(catalogs.size()).isGreaterThan(0);
-        assertThat(catalogs.get(0).getCatalogKey()).isNotNull();
-        assertThat(catalogs.get(0).getDisplayName()).isNotNull();
-        assertThat(catalogs.get(0).getId()).isNotNull();
+        assertThat(products.size()).isGreaterThan(0);
+
+        assertThat(products.get(0).getId()).isNotNull();
+        assertThat(products.get(0).getDescription()).isNotNull();
+        assertThat(products.get(0).getName()).isNotNull();
+        assertThat(products.get(0).getPrice()).isNotNull();
     }
 
     @Test
-    public void findByKey() {
-        List<Catalog> catalogs = catalogClient.findAll();
+    void findAllByCatalogKey() {
+        Catalog clothes = Catalog.builder().catalogKey("clothes").build();
 
-        String catalogKey = catalogs.get(0).getCatalogKey();
-        Catalog catalog = catalogClient.findByKey(catalogKey);
-        assertThat(catalog.getCatalogKey()).isEqualTo(catalogKey);
-        assertThat(catalog.getDisplayName()).isNotNull();
-        assertThat(catalog.getId()).isNotNull();
+        List<Product> products = productClient.findAllByCatalog(clothes);
+        assertThat(products)
+                .isNotNull();
+
+        assertThat(products.size()).isGreaterThan(0);
+
+        assertThat(products.get(0).getId()).isNotNull();
+        assertThat(products.get(0).getDescription()).isNotNull();
+        assertThat(products.get(0).getName()).isNotNull();
+        assertThat(products.get(0).getPrice()).isNotNull();
     }
 }

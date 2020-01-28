@@ -1,0 +1,28 @@
+description: |
+  Returns a catalog entry
+  ```
+  given:
+      any client
+  when:
+      requests catalog/key
+  then:
+      return catalog
+  ```
+request:
+  method: GET
+  url: /catalogs/clothes
+  headers:
+    Accept: application/json
+response:
+  status: 200
+  body:
+    "catalogKey": "clothes"
+    "displayName": "Clothes"
+    "id": "f94ac11b-a492-4706-aa66-7f7fd47c23a4"
+
+  headers:
+    Content-Type: application/json
+  matchers:
+    headers:
+      - key: Content-Type
+        regex: "application/json.*"

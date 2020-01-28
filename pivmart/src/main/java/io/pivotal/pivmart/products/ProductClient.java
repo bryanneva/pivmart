@@ -5,7 +5,8 @@ import io.pivotal.pivmart.models.Catalog;
 import io.pivotal.pivmart.models.Product;
 import io.pivotal.pivmart.repositories.ProductRepository;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -25,12 +26,17 @@ public class ProductClient implements ProductRepository {
 
     @Override
     public List<Product> findAll() {
+        RequestEntity<Void> requestEntity = RequestEntity
+                .get(URI.create(productApiProperties.getUrl()))
+                .accept(MediaType.APPLICATION_JSON)
+                .build();
+
+        ParameterizedTypeReference<List<Product>> responseType = new ParameterizedTypeReference<List<Product>>() {
+        };
+
         ResponseEntity<List<Product>> response = restTemplate.exchange(
-                URI.create(productApiProperties.getUrl()),
-                HttpMethod.GET,
-                null,
-                new ParameterizedTypeReference<List<Product>>() {
-                }
+                requestEntity,
+                responseType
         );
 
         return response.getBody();
@@ -38,14 +44,16 @@ public class ProductClient implements ProductRepository {
 
     @Override
     public List<Product> findAllByCatalog(Catalog catalog) {
-        URI url = URI.create(productApiProperties.getUrl() + "?catalog=" + catalog.getCatalogKey());
+        RequestEntity<Void> requestEntity = RequestEntity
+                .get(URI.create(productApiProperties.getUrl() + "?catalog=" + catalog.getCatalogKey()))
+                .accept(MediaType.APPLICATION_JSON)
+                .build();
+        ParameterizedTypeReference<List<Product>> responseType = new ParameterizedTypeReference<List<Product>>() {
+        };
 
         ResponseEntity<List<Product>> response = restTemplate.exchange(
-                url,
-                HttpMethod.GET,
-                null,
-                new ParameterizedTypeReference<List<Product>>() {
-                }
+                requestEntity,
+                responseType
         );
 
         return response.getBody();
