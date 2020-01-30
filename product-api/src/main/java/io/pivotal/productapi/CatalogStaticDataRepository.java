@@ -1,7 +1,5 @@
-package io.pivotal.pivmart.database;
+package io.pivotal.productapi;
 
-import io.pivotal.pivmart.models.Catalog;
-import io.pivotal.pivmart.repositories.CatalogRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
