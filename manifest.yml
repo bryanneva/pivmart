@@ -1,0 +1,7 @@
+---
+applications:
+  - name: pivmart
+    buildpacks:
+      - https://github.com/cloudfoundry/java-buildpack.git
+    instances: 1
+    path: build/libs/pivmart-0.0.1-SNAPSHOT.jar

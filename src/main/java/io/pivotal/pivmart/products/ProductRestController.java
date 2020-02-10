@@ -11,18 +11,14 @@ import java.util.List;
 @RequestMapping("api/products")
 public class ProductRestController {
 
-    private ProductService productService;
+    private ProductGateway productGateway;
 
-    public ProductRestController(ProductService productService) {
-        this.productService = productService;
+    public ProductRestController(ProductGateway productGateway) {
+        this.productGateway = productGateway;
     }
 
     @GetMapping
     public List<Product> list(@RequestParam(value = "catalog", required = false) String catalogKey) {
-        if(catalogKey == null) {
-            return productService.getAll();
-        }
-
-        return productService.getForCatalog(catalogKey);
+        return productGateway.getForCatalog(catalogKey);
     }
 }

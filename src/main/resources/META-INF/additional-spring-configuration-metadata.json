@@ -1,0 +1,13 @@
+{
+  "properties": [
+    {
+      "name": "productsserviceurl",
+      "type": "java.lang.String",
+      "description": "Description for productsserviceurl."
+    },
+    {
+      "name": "productsservice.url",
+      "type": "java.lang.String",
+      "description": "Description for productsservice.url."
+    }
+  ] }

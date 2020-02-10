@@ -1,0 +1,2 @@
+productsservice:
+  url: ${PRODUCTS_SERVICE_URL:"http://localhost:8081/"}

@@ -1,8 +1,5 @@
 package io.pivotal.pivmart.products;
 
-import io.pivotal.pivmart.products.Catalog;
-import io.pivotal.pivmart.products.CatalogRestController;
-import io.pivotal.pivmart.products.CatalogService;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,14 +22,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class CatalogRestControllerTest {
 
     @MockBean
-    CatalogService catalogService;
+    CatalogGateway catalogGateway;
 
     @Autowired
     MockMvc mockMvc;
 
     @Test
     void list_returnsCatalogs() throws Exception {
-        when(catalogService.getAll()).thenReturn(asList(Catalog.builder().build()));
+        when(catalogGateway.getAll()).thenReturn(asList(Catalog.builder().build()));
 
         mockMvc.perform(get("/api/catalogs"))
                 .andExpect(status().isOk())
@@ -42,6 +39,6 @@ class CatalogRestControllerTest {
                 .andExpect(jsonPath("$[0]", hasKey("displayName")))
         ;
 
-        verify(catalogService).getAll();
+        verify(catalogGateway).getAll();
     }
 }

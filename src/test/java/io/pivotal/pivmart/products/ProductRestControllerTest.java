@@ -1,8 +1,5 @@
 package io.pivotal.pivmart.products;
 
-import io.pivotal.pivmart.products.Product;
-import io.pivotal.pivmart.products.ProductRestController;
-import io.pivotal.pivmart.products.ProductService;
 import net.bytebuddy.utility.RandomString;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -29,7 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class ProductRestControllerTest {
 
     @MockBean
-    ProductService productService;
+    ProductGateway productGateway;
 
     @Autowired
     MockMvc mockMvc;
@@ -41,7 +38,7 @@ class ProductRestControllerTest {
     void list_returnsProductsForCatalog() throws Exception {
         String catalogName = RandomString.make();
 
-        when(productService.getForCatalog(catalogName))
+        when(productGateway.getForCatalog(catalogName))
                 .thenReturn(asList(Product.builder().build()));
 
         mockMvc.perform(get("/api/products?catalog={catalog}", catalogName))
@@ -51,23 +48,8 @@ class ProductRestControllerTest {
                 .andExpect(jsonPath("$[0]", hasKey("catalogId")))
         ;
 
-        verify(productService).getForCatalog(getForCatalogCaptor.capture());
+        verify(productGateway).getForCatalog(getForCatalogCaptor.capture());
 
         assertThat(getForCatalogCaptor.getValue()).isEqualTo(catalogName);
-    }
-
-    @Test
-    void list_returnsAllProductsWhenNoCatalogGiven() throws Exception {
-        when(productService.getAll())
-                .thenReturn(asList(Product.builder().build()));
-
-        mockMvc.perform(get("/api/products"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()", greaterThan(0)))
-                .andExpect(jsonPath("$[0]", hasKey("name")))
-                .andExpect(jsonPath("$[0]", hasKey("catalogId")))
-        ;
-
-        verify(productService).getAll();
     }
 }

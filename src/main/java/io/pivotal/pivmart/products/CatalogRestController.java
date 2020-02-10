@@ -10,15 +10,14 @@ import java.util.List;
 @RequestMapping("api/catalogs")
 public class CatalogRestController {
 
-    private CatalogService catalogService;
+    private CatalogGateway catalogGateway;
 
-    public CatalogRestController(CatalogService catalogService) {
-        this.catalogService = catalogService;
+    public CatalogRestController(CatalogGateway catalogGateway) {
+        this.catalogGateway = catalogGateway;
     }
 
     @GetMapping
     public List<Catalog> list() {
-        return catalogService.getAll();
+        return catalogGateway.getAll();
     }
-
 }
