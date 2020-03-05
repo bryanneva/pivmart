@@ -2,11 +2,10 @@ package io.pivotal.pivmart.repositories;
 
 import io.pivotal.pivmart.models.Catalog;
 import io.pivotal.pivmart.models.Product;
-
-import java.util.List;
+import reactor.core.publisher.Flux;
 
 public interface ProductRepository {
-    List<Product> findAllByCatalog(Catalog catalog);
+    Flux<Product> findAllByCatalog(Catalog catalog);
 
-    List<Product> findAll();
+    Flux<Product> findAll();
 }
