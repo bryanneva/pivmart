@@ -7,8 +7,8 @@ import io.pivotal.pivmart.repositories.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cloud.client.circuitbreaker.ReactiveCircuitBreakerFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @Service
 @RequiredArgsConstructor
@@ -19,16 +19,19 @@ public class ProductService {
     private final ReactiveCircuitBreakerFactory circuitBreakerFactory;
 
     public Flux<Product> getForCatalog(String catalogKey) {
-        Catalog catalog;
-        try {
-            catalog = catalogRepository.findByKey(catalogKey).block();
-        } catch (WebClientResponseException e) {
+        Catalog catalog = circuitBreakerFactory.create("getCatalog")
+                .run(catalogRepository.findByKey(catalogKey),
+                        throwable -> Mono.empty())
+                .block();
+
+        if (catalog != null) {
+            return circuitBreakerFactory.create("productsForCatalog")
+                    .run(productRepository.findAllByCatalog(catalog),
+                            throwable -> Flux.empty());
+        } else {
             return Flux.empty();
         }
 
-        return circuitBreakerFactory.create("productsForCatalog")
-                .run(productRepository.findAllByCatalog(catalog),
-                        throwable -> Flux.empty());
     }
 
     public Flux<Product> getAll() {
