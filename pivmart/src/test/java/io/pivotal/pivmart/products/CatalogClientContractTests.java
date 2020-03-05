@@ -9,8 +9,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cloud.contract.stubrunner.spring.AutoConfigureStubRunner;
 import org.springframework.cloud.contract.stubrunner.spring.StubRunnerProperties;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import java.util.List;
+import reactor.core.publisher.Flux;
+import reactor.test.StepVerifier;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.MOCK;
@@ -23,7 +23,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
         // NOTE: You'll need to replace the section below to point to your
         // pivmart root folder
         repositoryRoot = "stubs://file://Users/abray/workspace/pivmart/nexus/META-INF",
-        properties="stubs.find-producer=true"
+        properties = "stubs.find-producer=true"
 )
 @AutoConfigureJsonTesters
 public class CatalogClientContractTests {
@@ -32,22 +32,22 @@ public class CatalogClientContractTests {
 
     @Test
     public void findAll() {
-        List<Catalog> catalogs = catalogClient.findAll();
-        assertThat(catalogs)
-                .isNotNull();
-
-        assertThat(catalogs.size()).isGreaterThan(0);
-        assertThat(catalogs.get(0).getCatalogKey()).isNotNull();
-        assertThat(catalogs.get(0).getDisplayName()).isNotNull();
-        assertThat(catalogs.get(0).getId()).isNotNull();
+        StepVerifier.create(catalogClient.findAll())
+                .assertNext(result -> {
+                    assertThat(result.getCatalogKey()).isNotNull();
+                    assertThat(result.getDisplayName()).isNotNull();
+                    assertThat(result.getId()).isNotNull();
+                })
+                .expectNextCount(3)
+                .verifyComplete();
     }
 
     @Test
     public void findByKey() {
-        List<Catalog> catalogs = catalogClient.findAll();
+        Flux<Catalog> catalogs = catalogClient.findAll();
+        String catalogKey = catalogs.blockFirst().getCatalogKey();
 
-        String catalogKey = catalogs.get(0).getCatalogKey();
-        Catalog catalog = catalogClient.findByKey(catalogKey);
+        Catalog catalog = catalogClient.findByKey(catalogKey).block();
         assertThat(catalog.getCatalogKey()).isEqualTo(catalogKey);
         assertThat(catalog.getDisplayName()).isNotNull();
         assertThat(catalog.getId()).isNotNull();

@@ -2,20 +2,20 @@ package io.pivotal.pivmart.services;
 
 import io.pivotal.pivmart.models.Catalog;
 import io.pivotal.pivmart.repositories.CatalogRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.cloud.client.circuitbreaker.ReactiveCircuitBreakerFactory;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
+import reactor.core.publisher.Flux;
 
 @Service
+@RequiredArgsConstructor
 public class CatalogService {
+    private final ReactiveCircuitBreakerFactory circuitBreakerFactory;
+    private final CatalogRepository catalogRepository;
 
-    CatalogRepository catalogRepository;
-
-    public CatalogService(CatalogRepository catalogRepository) {
-        this.catalogRepository = catalogRepository;
-    }
-
-    public List<Catalog> getAll() {
-        return catalogRepository.findAll();
+    public Flux<Catalog> getAll() {
+        return circuitBreakerFactory.create("catalogs")
+                .run(catalogRepository.findAll(),
+                        throwable -> Flux.empty());
     }
 }

@@ -11,7 +11,7 @@ public class WebClientConfig {
     @Bean
     public WebClient webClient(LoadBalancerClient loadBalancerClient) {
         return WebClient.builder()
-                .filter(new LoadBalancerExchangeFilterFunction( loadBalancerClient ) )
+                .filter(new LoadBalancerExchangeFilterFunction(loadBalancerClient))
                 .build();
     }
 }

@@ -27,7 +27,8 @@ export const Home: React.FC<Props> = ({categories, gateway, cartModel}) => {
     productApi.getProducts(activeCategory)
       .then(newProducts => {
         setCurrentProducts(newProducts);
-      });
+      })
+      .catch(console.log)
   }, [productApi, activeCategory]);
 
   useCartModel(cartModel);
