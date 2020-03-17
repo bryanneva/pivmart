@@ -20,7 +20,7 @@ public class ProductService {
     }
 
     public List<Product> getForCatalog(String catalogKey) {
-        Catalog catalog = catalogRepository.findByKey(catalogKey);
+        Catalog catalog = catalogRepository.findByKey(catalogKey).block();
         return productRepository.findAllByCatalog(catalog);
     }
 

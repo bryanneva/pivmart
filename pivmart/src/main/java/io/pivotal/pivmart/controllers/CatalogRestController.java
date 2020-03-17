@@ -5,8 +5,7 @@ import io.pivotal.pivmart.services.CatalogService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
+import reactor.core.publisher.Flux;
 
 @RestController
 @RequestMapping("api/catalogs")
@@ -19,8 +18,7 @@ public class CatalogRestController {
     }
 
     @GetMapping
-    public List<Catalog> list() {
+    public Flux<Catalog> list() {
         return catalogService.getAll();
     }
-
 }

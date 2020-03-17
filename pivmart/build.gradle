@@ -1,5 +1,5 @@
 plugins {
-    id 'org.springframework.boot' version '2.2.4.RELEASE'
+    id 'org.springframework.boot' version '2.2.5.RELEASE'
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
     id 'java'
 }
@@ -19,27 +19,30 @@ repositories {
 }
 
 ext {
-    set('springCloudVersion', "Hoxton.SR1")
+    set('springCloudVersion', "Hoxton.SR2")
 }
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
     implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
     implementation 'org.springframework.cloud:spring-cloud-starter-sleuth'
     implementation 'org.springframework.cloud:spring-cloud-starter-zipkin'
+    implementation 'org.springframework.cloud:spring-cloud-starter-circuitbreaker-reactor-resilience4j'
 
-    implementation 'org.springframework:spring-webflux'
-    implementation 'io.projectreactor.netty:reactor-netty'
+//    implementation 'io.projectreactor.netty:reactor-netty'
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
+
+    testImplementation 'org.springframework:spring-webmvc'
 
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
     testImplementation 'org.springframework.cloud:spring-cloud-starter-contract-stub-runner'
-
+    testImplementation 'io.projectreactor:reactor-test'
 }
 
 dependencyManagement {
