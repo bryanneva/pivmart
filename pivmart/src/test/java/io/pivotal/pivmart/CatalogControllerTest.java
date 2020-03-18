@@ -1,7 +1,6 @@
 package io.pivotal.pivmart;
 
 import io.pivotal.pivmart.models.Catalog;
-import io.pivotal.pivmart.products.ProductClient;
 import io.pivotal.pivmart.repositories.CatalogRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

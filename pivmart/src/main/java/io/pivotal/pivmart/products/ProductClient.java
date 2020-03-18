@@ -4,7 +4,6 @@ import io.pivotal.pivmart.models.Catalog;
 import io.pivotal.pivmart.models.Product;
 import io.pivotal.pivmart.repositories.ProductRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
