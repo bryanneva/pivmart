@@ -22,19 +22,7 @@ class PivmartApplicationTests {
 //    void contextLoads() {
 //    }
 //
-//    @Test
-//    void products_list() throws Exception {
-//        List<Product> products = asList(Product.builder().build());
-//        when(productClient.findAllByCatalog(any())).thenReturn(products);
-//
-//        mockMvc.perform(get("/api/products?catalog={catalog}", "electronics"))
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.length()", greaterThan(0)))
-//                .andExpect(jsonPath("$[0]", hasKey("name")))
-//                .andExpect(jsonPath("$[0]", hasKey("catalogId")))
-//                .andDo(print())
-//        ;
-//    }
+
 //
 //
 //    private ResultActions addItemToCart(UUID id) throws Exception {

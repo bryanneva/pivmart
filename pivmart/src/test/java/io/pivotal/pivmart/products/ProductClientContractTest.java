@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cloud.contract.stubrunner.spring.AutoConfigureStubRunner;
 import org.springframework.cloud.contract.stubrunner.spring.StubRunnerProperties;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import reactor.test.StepVerifier;
 
 import java.util.List;
 
@@ -24,7 +25,8 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
         // NOTE: You'll need to replace the section below to point to your
         // pivmart root folder
         repositoryRoot = "stubs://file://Users/abray/workspace/pivmart/nexus/META-INF",
-        properties="stubs.find-producer=true"
+        properties="stubs.find-producer=true",
+        mappingsOutputFolder = "build/mapping"
 )
 @AutoConfigureJsonTesters
 public class ProductClientContractTest {
@@ -33,31 +35,30 @@ public class ProductClientContractTest {
 
     @Test
     void findAll() {
-        List<Product> products = productClient.findAll();
-        assertThat(products)
-                .isNotNull();
-
-        assertThat(products.size()).isGreaterThan(0);
-
-        assertThat(products.get(0).getId()).isNotNull();
-        assertThat(products.get(0).getDescription()).isNotNull();
-        assertThat(products.get(0).getName()).isNotNull();
-        assertThat(products.get(0).getPrice()).isNotNull();
+        StepVerifier
+                .create(productClient.findAll())
+                .assertNext(product -> {
+                    assertThat(product.getId()).isNotNull();
+                    assertThat(product.getDescription()).isNotNull();
+                    assertThat(product.getName()).isNotNull();
+                    assertThat(product.getPrice()).isNotNull();
+                })
+                .expectNextCount(1)
+                .verifyComplete();
     }
 
     @Test
     void findAllByCatalogKey() {
         Catalog clothes = Catalog.builder().catalogKey("clothes").build();
 
-        List<Product> products = productClient.findAllByCatalog(clothes);
-        assertThat(products)
-                .isNotNull();
-
-        assertThat(products.size()).isGreaterThan(0);
-
-        assertThat(products.get(0).getId()).isNotNull();
-        assertThat(products.get(0).getDescription()).isNotNull();
-        assertThat(products.get(0).getName()).isNotNull();
-        assertThat(products.get(0).getPrice()).isNotNull();
+        StepVerifier
+                .create(productClient.findAllByCatalog(clothes))
+                .assertNext(product -> {
+                    assertThat(product.getId()).isNotNull();
+                    assertThat(product.getDescription()).isNotNull();
+                    assertThat(product.getName()).isNotNull();
+                    assertThat(product.getPrice()).isNotNull();
+                })
+                .verifyComplete();
     }
 }

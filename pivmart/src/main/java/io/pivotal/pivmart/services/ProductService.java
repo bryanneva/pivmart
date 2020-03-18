@@ -1,30 +1,32 @@
 package io.pivotal.pivmart.services;
 
-import io.pivotal.pivmart.models.Catalog;
 import io.pivotal.pivmart.models.Product;
 import io.pivotal.pivmart.repositories.CatalogRepository;
 import io.pivotal.pivmart.repositories.ProductRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.cloud.client.circuitbreaker.ReactiveCircuitBreakerFactory;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
+import reactor.core.publisher.Flux;
 
 @Service
+@RequiredArgsConstructor
 public class ProductService {
+    private final CatalogRepository catalogRepository;
+    private final ProductRepository productRepository;
+    private final ReactiveCircuitBreakerFactory reactiveCircuitBreakerFactory;
 
-    private CatalogRepository catalogRepository;
-    private ProductRepository productRepository;
+    public Flux<Product> getForCatalog(String catalogKey) {
 
-    public ProductService(CatalogRepository catalogRepository, ProductRepository productRepository) {
-        this.catalogRepository = catalogRepository;
-        this.productRepository = productRepository;
+
+        return reactiveCircuitBreakerFactory.create("getProductsByCatalog")
+                .run(catalogRepository
+                                .findByKey(catalogKey)
+                                .flatMapMany(catalog -> productRepository.findAllByCatalog(catalog)),
+                        throwable -> Flux.empty()
+                );
     }
 
-    public List<Product> getForCatalog(String catalogKey) {
-        Catalog catalog = catalogRepository.findByKey(catalogKey).block();
-        return productRepository.findAllByCatalog(catalog);
-    }
-
-    public List<Product> getAll() {
+    public Flux<Product> getAll() {
         return productRepository.findAll();
     }
 }

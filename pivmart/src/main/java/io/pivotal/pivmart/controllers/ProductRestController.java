@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Flux;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class ProductRestController {
     }
 
     @GetMapping
-    public List<Product> list(@RequestParam(value = "catalog", required = false) String catalogKey) {
+    public Flux<Product> list(@RequestParam(value = "catalog", required = false) String catalogKey) {
         if (catalogKey == null) {
             return productService.getAll();
         }
