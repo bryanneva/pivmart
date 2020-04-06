@@ -1,0 +1,27 @@
+server:
+  port: 8765
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: pivmart-api
+          uri: lb://pivmart
+          predicates:
+            - Path=/api/**
+        - id: pivmart-ui
+          uri: http://localhost:3000
+          predicates:
+            - Path=/**
+#        - id: products
+#            uri: lb://pivmart
+#            predicates:
+#              - Path=/api/products
+#        - id: cart
+#            uri: lb://pivmart
+#            predicates:
+#              - Path=/api/cart
+#        - id: purchases
+#            uri: lb://pivmart
+#            predicates:
+#              - Path=/api/purchases
