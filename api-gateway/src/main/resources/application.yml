@@ -8,15 +8,19 @@ spring:
         - id: pivmart-api
           uri: lb://pivmart
           predicates:
-            - Path=/api/**
+            - Path=/api/products/**,/api/catalogs/**
+        - id: cart-api
+          uri: lb://cart-api
+          predicates:
+            - Path=/api/cart/**
+        - id:  purchase-api
+          uri: lb://purchase-api
+          predicates:
+            - Path=/api/purchases/**
         - id: pivmart-ui
           uri: http://localhost:3000
           predicates:
             - Path=/**
-#        - id: products
-#            uri: lb://pivmart
-#            predicates:
-#              - Path=/api/products
 #        - id: cart
 #            uri: lb://pivmart
 #            predicates:
