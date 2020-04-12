@@ -1,5 +1,6 @@
 package io.pivotal.cartapi;
 
+import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -8,11 +9,11 @@ import java.util.UUID;
 @Service
 public class CartService {
     private CartRepository cartRepository;
-    private CartPublisher cartPublisher;
+    private StreamBridge streamBridge;
 
-    public CartService(CartRepository cartRepository, CartPublisher cartPublisher) {
+    public CartService(CartRepository cartRepository, StreamBridge streamBridge) {
         this.cartRepository = cartRepository;
-        this.cartPublisher = cartPublisher;
+        this.streamBridge = streamBridge;
     }
 
     public List<CartItem> get() {
@@ -35,6 +36,8 @@ public class CartService {
 
     public void checkOut() {
         List<CartItem> cart = cartRepository.findAll();
-        cartPublisher.publish(cart);
+        CheckoutEvent checkoutEvent = new CheckoutEvent(cart);
+        streamBridge.send("cartPublisher-out-0", checkoutEvent);
+        cartRepository.removeAll();
     }
 }

@@ -4,3 +4,12 @@ server:
 logging:
   level:
     org.springframework.web: debug
+    org.springframework.cloud.stream: debug
+
+spring:
+  cloud:
+    stream:
+      source: cartPublisher
+      bindings:
+        cartPublisher-out-0:
+          destination: cart-exchange
