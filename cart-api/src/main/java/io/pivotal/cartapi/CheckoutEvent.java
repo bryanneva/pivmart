@@ -1,9 +1,9 @@
 package io.pivotal.cartapi;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.springframework.context.ApplicationEvent;
 
 import java.util.List;
 
@@ -14,6 +14,7 @@ public class CheckoutEvent {
 
     private List<CartItem> cart;
 
+    @JsonCreator
     public CheckoutEvent(List<CartItem> cart) {
         this.cart = cart;
     }
