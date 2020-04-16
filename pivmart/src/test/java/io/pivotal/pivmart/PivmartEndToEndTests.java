@@ -5,6 +5,7 @@ import io.pivotal.pivmart.models.Purchase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -51,7 +52,8 @@ public class PivmartEndToEndTests {
     }
 
     private void addProductToCart(Product product) {
-        testClient.put().uri("/api/cart/" + product.getId())
+        testClient.post().uri("/api/cart")
+                .body(Mono.just(product), Product.class)
                 .exchange()
                 .expectStatus().isOk();
     }

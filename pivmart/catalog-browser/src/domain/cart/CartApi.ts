@@ -19,7 +19,7 @@ export class CartApi {
   }
 
   remove(id: string): Promise<void> {
-    return fetch(`/api/cart/${id}`, {method: 'PUT'})
+    return fetch(`/api/cart/${id}`, {method: 'DELETE'})
       .then(response => response.json());
   }
 
