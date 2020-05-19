@@ -1,0 +1,6 @@
+command: create-service
+service: p-service-registry
+service_instance: pivmart-service-registry
+plan: standard
+timeout: 300
+wait_for_service: true

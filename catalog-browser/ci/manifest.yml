@@ -1,0 +1,5 @@
+---
+name: pivmart-catalog-browser
+path: ../../../artifacts/build/
+instances: 2
+buildpack: staticfile_buildpack

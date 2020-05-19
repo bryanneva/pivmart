@@ -1,0 +1,6 @@
+command: create-service
+service: p.gateway
+service_instance: pivmart-gateway
+plan: standard
+timeout: 300
+wait_for_service: true

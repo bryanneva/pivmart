@@ -1,0 +1,7 @@
+---
+name: pivmart-main
+path: ../../../artifacts/pivmart.jar
+instances: 2
+buildpack: java_buildpack_offline
+services:
+  - pivmart-service-registry

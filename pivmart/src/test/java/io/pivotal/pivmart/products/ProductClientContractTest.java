@@ -18,10 +18,10 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 @SpringBootTest(webEnvironment = MOCK)
 @AutoConfigureStubRunner(
         stubsMode = StubRunnerProperties.StubsMode.REMOTE,
-        ids = "io.pivotal:product-api",
+        ids = "io.pivotal:pivmart-product-api",
         // NOTE: You'll need to replace the section below to point to your
         // pivmart root folder
-        repositoryRoot = "stubs://file://Users/abray/workspace/pivmart/nexus/META-INF",
+        // repositoryRoot = "stubs://file://Users/abray/workspace/pivmart/nexus/META-INF",
         properties = "stubs.find-producer=true"
 )
 @AutoConfigureJsonTesters

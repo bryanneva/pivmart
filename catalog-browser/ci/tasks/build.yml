@@ -1,0 +1,13 @@
+---
+platform: linux
+image_resource:
+  type: docker-image
+  source:
+    repository: node
+    tag: 14
+inputs:
+  - name: src-repo
+outputs:
+  - name: artifacts
+run:
+  path: src-repo/catalog-browser/ci/scripts/build.sh

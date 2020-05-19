@@ -1,6 +1,6 @@
 spring:
   application:
-    name: cart-api
+    name: pivmart-cart-api
 
 logging:
   level:

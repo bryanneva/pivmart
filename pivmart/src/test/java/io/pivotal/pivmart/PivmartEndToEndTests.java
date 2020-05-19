@@ -3,6 +3,7 @@ package io.pivotal.pivmart;
 import io.pivotal.pivmart.models.Product;
 import io.pivotal.pivmart.models.Purchase;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Mono;
@@ -11,6 +12,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Tag("E2E")
 public class PivmartEndToEndTests {
     WebTestClient testClient;
 

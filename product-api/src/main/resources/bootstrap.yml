@@ -1,3 +1,13 @@
 spring:
   application:
-    name: product-api
+    name: pivmart-product-api
+
+---
+spring:
+  profiles: cloud
+eureka:
+  instance:
+    hostname: ${vcap.application.uris[0]}
+    metadata-map:
+      applicationId: ${vcap.application.application_id}
+      instanceId: ${vcap.application.instance_index}

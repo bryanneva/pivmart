@@ -9,6 +9,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.cloud.stream.binder.test.InputDestination;
 import org.springframework.cloud.stream.binder.test.OutputDestination;
 import org.springframework.cloud.stream.binder.test.TestChannelBinderConfiguration;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.messaging.Message;
 
@@ -52,6 +53,6 @@ class CartServiceTest {
 
     @SpringBootApplication
     @Import(TestChannelBinderConfiguration.class)
-    public static class SampleConfiguration {
+    static class SampleConfiguration {
     }
 }

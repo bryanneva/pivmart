@@ -1,0 +1,5 @@
+#cf-username: abray
+#cf-password: test
+cf-host: https://api.run.pcfone.io
+cf-org: pivot-abray
+cf-space: app-scaling-workshop

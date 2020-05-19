@@ -20,7 +20,7 @@ public class CatalogClient implements CatalogRepository {
     @Override
     public Flux<Catalog> findAll() {
         return webClient.get()
-                .uri(URI.create("http://product-api/catalogs"))
+                .uri(URI.create("http://pivmart-product-api/catalogs"))
                 .accept(APPLICATION_JSON)
                 .retrieve()
                 .bodyToFlux(Catalog.class);
@@ -29,7 +29,7 @@ public class CatalogClient implements CatalogRepository {
     @Override
     public Mono<Catalog> findByKey(String catalogKey) {
         return webClient.get()
-                .uri(URI.create("http://product-api/catalogs/" + catalogKey))
+                .uri(URI.create("http://pivmart-product-api/catalogs/" + catalogKey))
                 .accept(APPLICATION_JSON)
                 .retrieve()
                 .bodyToMono(Catalog.class);

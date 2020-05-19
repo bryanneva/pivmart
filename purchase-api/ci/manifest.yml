@@ -1,0 +1,8 @@
+---
+name: pivmart-purchase-api
+path: ../../../artifacts/purchase-api.jar
+instances: 1
+buildpack: java_buildpack_offline
+services:
+  - pivmart-rabbitmq
+  - pivmart-service-registry

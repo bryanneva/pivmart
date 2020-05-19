@@ -1,0 +1,76 @@
+resource_types:
+  - name: cf-cli-resource
+    type: registry-image
+    source:
+      repository: nulldriver/cf-cli-resource
+      tag: latest
+
+resources:
+  - name: git-repo
+    type: git
+    source:
+      uri: https://github.com/bryanneva/pivmart
+      branch: pipeline-test
+      paths:
+        - pivmart/**
+        - nexus/**
+
+  - name: cf-cli-pcf
+    type: cf-cli-resource
+    source:
+      api: ((cf-host))
+      username: ((cf-username))
+      password: ((cf-password))
+      org: ((cf-org))
+      space: ((cf-space))
+      skip_cert_check: true
+
+  - name: pcf
+    type: cf
+    source:
+      api: ((cf-host))
+      username: ((cf-username))
+      password: ((cf-password))
+      organization: ((cf-org))
+      space: ((cf-space))
+
+jobs:
+  - name: build-and-deploy-develop
+    plan:
+      - get: src-repo
+        resource: git-repo
+        trigger: true
+
+      - task: build develop with gradle
+        privileged: true
+        file: src-repo/pivmart/ci/tasks/build.yml
+
+      - put: cf-create-service-registry
+        resource: cf-cli-pcf
+        params:
+          command: create-service
+          command_file: src-repo/pivmart/ci/services/service-registry.yml
+
+      - put: cf-create-api-gateway
+        resource: cf-cli-pcf
+        params:
+          command: create-service
+          command_file: src-repo/pivmart/ci/services/api-gateway.yml
+
+      - put: pcf
+        params:
+          manifest: src-repo/pivmart/ci/manifest.yml
+
+      - put: cf-map-route
+        resource: cf-cli-pcf
+        params:
+          command: map-route
+          app_name: pivmart-main
+          domain: apps.internal
+          hostname: pivmart-main
+          
+      - put: cf-create-api-gateway-binding
+        resource: cf-cli-pcf
+        params:
+          command: bind-service
+          command_file: src-repo/pivmart/ci/services/api-gateway-binding.yml

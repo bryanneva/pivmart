@@ -1,23 +1,58 @@
 server:
   port: 8765
 
+logging:
+  level:
+    org.springframework.web: debug
+    org.springframework.security: debug
+
 spring:
   cloud:
     gateway:
       routes:
-        - id: pivmart-api
-          uri: lb://pivmart
+        - id: pivmart-main
+          uri: lb://pivmart-main
           predicates:
             - Path=/api/products/**,/api/catalogs/**
-        - id: cart-api
-          uri: lb://cart-api
+        - id: pivmart-cart-api
+          uri: lb://pivmart-cart-api
           predicates:
             - Path=/api/cart/**
         - id:  purchase-api
-          uri: lb://purchase-api
+          uri: lb://pivmart-purchase-api
           predicates:
             - Path=/api/purchases/**
         - id: pivmart-ui
           uri: http://localhost:3000
           predicates:
             - Path=/**
+
+
+#cf bind-service pivmart-main pivmart-gateway -c '{ "routes": [{"uri": "lb://pivmart-main.apps.internal", "predicates": ["Path=/api/products/**,/api/catalogs/**"], "filters": ["StripPrefix=0"]}] }'
+#cf bind-service catalog-browser-pivmart pivmart-gateway -c '{ "routes": [{"uri": "lb://catalog-browser-pivmart.apps.internal", "order": 100, "predicates": ["Path=/**"], "filters": ["StripPrefix=0"]}] }'
+#cf bind-service cart-api pivmart-gateway -c '{ "routes": [{"uri": "lb://cart-api.apps.internal", "predicates": ["Path=/api/cart/**"], "filters": ["StripPrefix=0"]}] }'
+#cf bind-service purchase-api pivmart-gateway -c '{ "routes": [{"uri": "lb://purchase-api.apps.internal", "predicates": ["Path=/api/purchases/**"], "filters": ["StripPrefix=0"]}] }'
+
+#---
+#spring:
+#  profiles: cloud
+#  cloud:
+#    gateway:
+#      routes:
+#        - id: pivmart-api
+#          uri: lb://pivmart
+#          predicates:
+#            - Path=/api/products/**,/api/catalogs/**
+#        - id: cart-api
+#          uri: lb://cart-api
+#          predicates:
+#            - Path=/api/cart/**
+#        - id:  purchase-api
+#          uri: lb://purchase-api
+#          predicates:
+#            - Path=/api/purchases/**
+#        - id: pivmart-ui
+#          uri: http://pivmart-ui.apps.internal
+#          predicates:
+#            - Path=/**
+#

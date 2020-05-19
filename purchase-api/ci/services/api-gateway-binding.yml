@@ -1,0 +1,4 @@
+command: bind-service
+service_instance: pivmart-gateway
+app_name: pivmart-purchase-api
+configuration: '{ "routes": [{"uri": "lb://pivmart-purchase-api.apps.internal", "predicates": ["Path=/api/purchases/**"], "filters": ["StripPrefix=0"]}] }'

@@ -1,0 +1,8 @@
+---
+name: pivmart-cart-api
+path: ../../../artifacts/cart-api.jar
+instances: 1
+buildpack: java_buildpack_offline
+services:
+  - pivmart-rabbitmq
+  - pivmart-service-registry

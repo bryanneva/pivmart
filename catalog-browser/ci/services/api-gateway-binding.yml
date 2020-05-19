@@ -1,0 +1,4 @@
+command: bind-service
+service_instance: pivmart-gateway
+app_name: pivmart-catalog-browser
+configuration: '{ "routes": [{"uri": "lb://pivmart-catalog-browser.apps.internal", "order": 100, "predicates": ["Path=/**"], "filters": ["StripPrefix=0"]}] }'

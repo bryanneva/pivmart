@@ -30,3 +30,8 @@ out/
 
 ### VS Code ###
 .vscode/
+/api-gateway/bin/
+/cart-api/bin/
+/discovery-server/bin/
+/pivmart/bin/
+/purchase-api/bin/

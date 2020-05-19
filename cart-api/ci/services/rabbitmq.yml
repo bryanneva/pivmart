@@ -1,0 +1,6 @@
+command: create-service
+service: p-rabbitmq
+service_instance: pivmart-rabbitmq
+plan: standard
+timeout: 300
+wait_for_service: true

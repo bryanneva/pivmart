@@ -1,0 +1,16 @@
+---
+platform: linux
+image_resource:
+  type: docker-image
+  source:
+    repository: adoptopenjdk/openjdk11
+    tag: latest
+inputs:
+  - name: src-repo
+outputs:
+  - name: artifacts
+params:
+  BUILD_CMD: ./gradlew clean build
+  COPY_CMD: cp build/libs/purchase-api-*-SNAPSHOT.jar ../../artifacts/purchase-api.jar
+run:
+  path: src-repo/purchase-api/ci/scripts/build.sh

@@ -20,7 +20,7 @@ public class ProductClient implements ProductRepository {
     @Override
     public Flux<Product> findAll() {
         return webClient.get()
-                .uri(URI.create("http://product-api/"))
+                .uri(URI.create("http://pivmart-product-api/"))
                 .accept(APPLICATION_JSON)
                 .retrieve()
                 .bodyToFlux(Product.class);
@@ -28,7 +28,7 @@ public class ProductClient implements ProductRepository {
 
     @Override
     public Flux<Product> findAllByCatalog(Catalog catalog) {
-        URI url = URI.create("http://product-api/?catalog=" + catalog.getCatalogKey());
+        URI url = URI.create("http://pivmart-product-api/?catalog=" + catalog.getCatalogKey());
         return webClient.get()
                 .uri(url)
                 .accept(APPLICATION_JSON)
