@@ -60,6 +60,8 @@ jobs:
       - put: pcf
         params:
           manifest: src-repo/pivmart/ci/manifest.yml
+          vars_files:
+            - src-repo/ci-shared/variables/space.yml
 
       - put: cf-map-route
         resource: cf-cli-pcf

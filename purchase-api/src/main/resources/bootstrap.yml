@@ -1,6 +1,6 @@
 spring:
   application:
-    name: pivmart-purchase-api
+    name: ${WS_PREFIX:pivmart}-purchase-api
 
 logging:
   level:

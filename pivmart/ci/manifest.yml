@@ -1,7 +1,9 @@
 ---
-name: pivmart-main
+name: ((ws_prefix))-main
 path: ../../../artifacts/pivmart.jar
 instances: 2
 buildpack: java_buildpack_offline
 services:
   - pivmart-service-registry
+env:
+  - WS_PREFIX: ((ws_prefix))

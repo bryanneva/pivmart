@@ -1,5 +1,6 @@
 package io.pivotal.pivmart.products;
 
+import io.pivotal.pivmart.config.WorkshopConfigProperties;
 import io.pivotal.pivmart.models.Catalog;
 import io.pivotal.pivmart.models.Product;
 import io.pivotal.pivmart.repositories.ProductRepository;
@@ -16,11 +17,12 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 @RequiredArgsConstructor
 public class ProductClient implements ProductRepository {
     private final WebClient webClient;
+    private final WorkshopConfigProperties workshopConfigProperties;
 
     @Override
     public Flux<Product> findAll() {
         return webClient.get()
-                .uri(URI.create("http://pivmart-product-api/"))
+                .uri(URI.create(String.format("http://%s-product-api/", workshopConfigProperties.getPrefix())))
                 .accept(APPLICATION_JSON)
                 .retrieve()
                 .bodyToFlux(Product.class);
@@ -28,7 +30,7 @@ public class ProductClient implements ProductRepository {
 
     @Override
     public Flux<Product> findAllByCatalog(Catalog catalog) {
-        URI url = URI.create("http://pivmart-product-api/?catalog=" + catalog.getCatalogKey());
+        URI url = URI.create(String.format("http://%s-product-api/?catalog=%s", workshopConfigProperties.getPrefix(), catalog.getCatalogKey()));
         return webClient.get()
                 .uri(url)
                 .accept(APPLICATION_JSON)

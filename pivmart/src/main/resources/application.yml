@@ -1,0 +1,11 @@
+logging.level:
+  org.springframework.cloud.contract: DEBUG
+  org.springframework.web: DEBUG
+  org.springframework.cloud.circuitbreaker: DEBUG
+  io.github.resilience4j: DEBUG
+
+#productapi:
+#  url: ${PRODUCT_API_URL:http://localhost:8081/}
+
+workshop:
+  prefix: ${WS_PREFIX:pivmart}

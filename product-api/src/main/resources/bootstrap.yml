@@ -1,6 +1,6 @@
 spring:
   application:
-    name: pivmart-product-api
+    name: ${WS_PREFIX:pivmart}-product-api
 
 ---
 spring:

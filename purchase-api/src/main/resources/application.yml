@@ -12,3 +12,6 @@ spring:
         checkoutListener-in-0:
           destination: cart-exchange
           group: purchase-api
+
+workshop:
+  prefix: ${WS_PREFIX:pivmart}

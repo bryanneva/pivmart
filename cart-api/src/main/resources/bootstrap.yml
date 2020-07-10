@@ -1,6 +1,6 @@
 spring:
   application:
-    name: pivmart-cart-api
+    name: ${WS_PREFIX:pivmart}-cart-api
 
 logging:
   level:

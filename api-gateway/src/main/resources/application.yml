@@ -11,15 +11,15 @@ spring:
     gateway:
       routes:
         - id: pivmart-main
-          uri: lb://pivmart-main
+          uri: lb://${WS_PREFIX:pivmart}-main
           predicates:
             - Path=/api/products/**,/api/catalogs/**
         - id: pivmart-cart-api
-          uri: lb://pivmart-cart-api
+          uri: lb://${WS_PREFIX:pivmart}-cart-api
           predicates:
             - Path=/api/cart/**
         - id:  purchase-api
-          uri: lb://pivmart-purchase-api
+          uri: lb://${WS_PREFIX:pivmart}-purchase-api
           predicates:
             - Path=/api/purchases/**
         - id: pivmart-ui
