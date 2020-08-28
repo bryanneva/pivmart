@@ -24,14 +24,22 @@ ext {
 }
 
 dependencies {
-	implementation 'org.springframework.security.experimental:spring-security-oauth2-authorization-server:0.0.1'
-//	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
-	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+
+	// Spring Boot dependencies
+//	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 
+	// Spring Authorization Server dependencies (experimental)
+	implementation 'org.springframework.security.experimental:spring-security-oauth2-authorization-server:0.0.1'
+
+	// Spring Cloud dependencies
+//	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+
+	// Test dependencies
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
+
 }
 
 dependencyManagement {

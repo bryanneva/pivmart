@@ -17,14 +17,27 @@ ext {
 }
 
 dependencies {
+
+	// Spring Boot dependencies
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+
+
+	// Spring Cloud dependencies
 	implementation 'io.pivotal.spring.cloud:spring-cloud-services-starter-service-registry'
+
+	implementation 'org.springframework.cloud:spring-cloud-starter-security'
+
 	implementation 'org.springframework.cloud:spring-cloud-starter-gateway'
+
+
+	// Test dependencies
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
+
 }
 
 dependencyManagement {
