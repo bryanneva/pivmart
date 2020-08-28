@@ -27,7 +27,6 @@ spring:
           predicates:
             - Path=/**
 
-
 #cf bind-service pivmart-main pivmart-gateway -c '{ "routes": [{"uri": "lb://pivmart-main.apps.internal", "predicates": ["Path=/api/products/**,/api/catalogs/**"], "filters": ["StripPrefix=0"]}] }'
 #cf bind-service catalog-browser-pivmart pivmart-gateway -c '{ "routes": [{"uri": "lb://catalog-browser-pivmart.apps.internal", "order": 100, "predicates": ["Path=/**"], "filters": ["StripPrefix=0"]}] }'
 #cf bind-service cart-api pivmart-gateway -c '{ "routes": [{"uri": "lb://cart-api.apps.internal", "predicates": ["Path=/api/cart/**"], "filters": ["StripPrefix=0"]}] }'
