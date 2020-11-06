@@ -1,3 +1,4 @@
+
 server:
   port: 8084
 
@@ -12,3 +13,8 @@ spring:
         checkoutListener-in-0:
           destination: cart-exchange
           group: purchase-api
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:9000/oauth2/jwks

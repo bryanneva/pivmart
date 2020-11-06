@@ -9,6 +9,8 @@ logging:
 spring:
   cloud:
     gateway:
+      default-filters:
+        - TokenRelay=
       routes:
         - id: pivmart-main
           uri: lb://pivmart-main
@@ -26,8 +28,6 @@ spring:
           uri: http://localhost:3000
           predicates:
             - Path=/**
-      default-filters:
-        - TokenRelay=
   security:
     oauth2:
       client:

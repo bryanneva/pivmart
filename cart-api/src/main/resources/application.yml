@@ -1,11 +1,13 @@
+
 server:
   port: 8083
 
 logging:
   level:
-    org.springframework.web: debug
-    org.springframework.security: debug
     org.springframework.cloud.stream: debug
+    org.springframework.security: debug
+    org.springframework.security.oauth2: debug
+    org.springframework.web: debug
 
 spring:
   cloud:
@@ -14,3 +16,8 @@ spring:
       bindings:
         cartPublisher-out-0:
           destination: cart-exchange
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:9000/oauth2/jwks
