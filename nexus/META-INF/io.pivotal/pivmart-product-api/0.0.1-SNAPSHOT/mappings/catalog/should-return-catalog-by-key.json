@@ -1,5 +1,5 @@
 {
-  "id" : "61678faa-e82c-4d3b-a1cd-4a96c80b541e",
+  "id" : "a0fb6090-87e5-4937-a878-9695b07b88f3",
   "request" : {
     "url" : "/catalogs/clothes",
     "method" : "GET",
@@ -17,5 +17,5 @@
     },
     "transformers" : [ "response-template" ]
   },
-  "uuid" : "61678faa-e82c-4d3b-a1cd-4a96c80b541e"
+  "uuid" : "a0fb6090-87e5-4937-a878-9695b07b88f3"
 }

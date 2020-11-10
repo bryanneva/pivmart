@@ -2,7 +2,7 @@ import org.springframework.cloud.contract.verifier.config.TestFramework
 
 plugins {
     id 'org.springframework.boot' version '2.3.5.RELEASE'
-    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.10.RELEASE'
     id 'java'
     id 'org.springframework.cloud.contract' version '2.2.1.RELEASE'
 }
@@ -22,7 +22,7 @@ repositories {
 }
 
 ext {
-    set('springCloudVersion', "Hoxton.SR8")
+    set('springCloudVersion', "Hoxton.SR9")
 }
 
 dependencies {

@@ -1,5 +1,5 @@
 {
-  "id" : "c36fc20f-c373-44a3-8b83-647a76fa6593",
+  "id" : "0e1b4ae2-b358-47a2-baa0-a7186d21722d",
   "request" : {
     "url" : "/catalogs",
     "method" : "GET",
@@ -17,5 +17,5 @@
     },
     "transformers" : [ "response-template" ]
   },
-  "uuid" : "c36fc20f-c373-44a3-8b83-647a76fa6593"
+  "uuid" : "0e1b4ae2-b358-47a2-baa0-a7186d21722d"
 }

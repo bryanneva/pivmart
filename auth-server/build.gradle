@@ -20,7 +20,7 @@ repositories {
 }
 
 ext {
-	set('springCloudVersion', "Hoxton.SR8")
+	set('springCloudVersion', "Hoxton.SR9")
 }
 
 dependencies {
@@ -30,7 +30,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 
 	// Spring Authorization Server dependencies (experimental)
-	implementation 'org.springframework.security.experimental:spring-security-oauth2-authorization-server:0.0.1'
+	implementation 'org.springframework.security.experimental:spring-security-oauth2-authorization-server:0.0.3'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 
 	// Spring Cloud dependencies
