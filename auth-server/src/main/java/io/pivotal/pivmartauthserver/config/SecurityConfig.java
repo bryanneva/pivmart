@@ -31,9 +31,10 @@ public class SecurityConfig {
                 .clientAuthenticationMethod( ClientAuthenticationMethod.BASIC )
                 .authorizationGrantType( AuthorizationGrantType.AUTHORIZATION_CODE )
                 .authorizationGrantType( AuthorizationGrantType.CLIENT_CREDENTIALS )
-                .redirectUri( "http://localhost:8765/authorized" )
+                .redirectUri( "http://gateway:8765/login/oauth2/code/web-client-authorization-code" )
                 .scope( "user.purchases" )
                 .scope( "user.cart" )
+//                .clientSettings( clientSettings -> clientSettings.requireUserConsent( true ) )
                 .build();
 
         return new InMemoryRegisteredClientRepository( registeredClient );
@@ -50,8 +51,8 @@ public class SecurityConfig {
 
         UserDetails user = User.withDefaultPasswordEncoder()
                 .username( "user1" )
-                .password( "password" )
-                .roles( "USER" )
+                .password( "pw" )
+                .roles( "user.purchases", "user.cart" )
                 .build();
 
         return new InMemoryUserDetailsManager( user );

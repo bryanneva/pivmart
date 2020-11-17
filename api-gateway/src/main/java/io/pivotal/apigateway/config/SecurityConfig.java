@@ -1,4 +1,4 @@
-package io.pivotal.apigateway;
+package io.pivotal.apigateway.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,6 +18,10 @@ public class SecurityConfig {
                 .csrf().disable()
 
                 .authorizeExchange()
+//                    .pathMatchers( HttpMethod.POST, "/api/**" ).authenticated()
+//                    .pathMatchers( HttpMethod.GET, "/api/**" ).permitAll()
+//                    .pathMatchers( "/**", "/static/**", "/static/js/**", "/manifest.json", "/favicon.ico", "/authorize", "/authorized" ).permitAll()
+//                    .pathMatchers( "/login/oauth2/code/**" ).permitAll()
                     .anyExchange().authenticated()
                         .and()
 
