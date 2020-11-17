@@ -13,7 +13,7 @@ Edit _/etc/hosts_
 Startup instructions:
 1. Start the Auth Service
   - `auth-server/src/main/java/io/pivotal/pivmartauthserver/AuthorizationServerApplication.java`
-1. Start the API Gateway
+2. Start the API Gateway
   - `api-gateway/src/main/java/io/pivotal/apigateway/ApiGatewayApplication.java`
-1. Open the gateway in chrome: [http://gateway:8765](http://gateway:8765)
+3. Open the gateway in chrome: [http://gateway:8765](http://gateway:8765)
 
