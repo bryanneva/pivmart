@@ -10,6 +10,7 @@ import {ShoppingCart} from "../components/ShoppingCart";
 import {CartModel} from "../domain/cart/CartModel";
 import {getDefaultCatalog} from "../domain/catalog/CatalogApi";
 import {useCartModel} from "../domain/cart/useCartModel";
+import {Login} from "./Login";
 
 interface Props {
   gateway: Gateway,
@@ -58,6 +59,9 @@ export const Home: React.FC<Props> = ({categories, gateway, cartModel}) => {
             key={i}
             product={product}/>
         )}
+      </section>
+      <section>
+        <Login gateway={gateway}/>
       </section>
     </main>
   );

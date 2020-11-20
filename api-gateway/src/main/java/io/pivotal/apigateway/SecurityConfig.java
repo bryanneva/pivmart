@@ -18,7 +18,7 @@ public class SecurityConfig {
                 .csrf().disable()
 
                 .authorizeExchange()
-                    .anyExchange().authenticated()
+                    .anyExchange().permitAll()
                         .and()
 
                 .oauth2Client()
