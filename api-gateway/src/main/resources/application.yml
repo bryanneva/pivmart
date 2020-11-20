@@ -1,45 +1,62 @@
 server:
   port: 8765
 
-logging:
-  level:
-    org.springframework.web: debug
-    org.springframework.security: debug
+logging.level:
+  org.springframework.cloud.gateway: INFO
+  org.springframework.security: DEBUG
+  org.springframework.security.oauth2: DEBUG
+  org.springframework.web: DEBUG
 
 spring:
+
   cloud:
+
     gateway:
-      default-filters:
-        - TokenRelay=
+
       routes:
         - id: pivmart-main
           uri: lb://pivmart-main
           predicates:
             - Path=/api/products/**,/api/catalogs/**
+          filters:
+            - TokenRelay=
         - id: pivmart-cart-api
           uri: lb://pivmart-cart-api
           predicates:
             - Path=/api/cart/**
+          filters:
+            - TokenRelay=
         - id:  purchase-api
           uri: lb://pivmart-purchase-api
           predicates:
             - Path=/api/purchases/**
+          filters:
+            - TokenRelay=
         - id: pivmart-ui
           uri: http://localhost:3000
           predicates:
             - Path=/**
+          filters:
+            - TokenRelay=
+
   security:
+
     oauth2:
+
       client:
+
         registration:
-          messaging-client-authorization-code:
+
+          web-client-authorization-code:
             provider: spring
             client-id: pivmart-client
             client-secret: secret
             authorization-grant-type: authorization_code
-            redirect-uri: "{baseUrl}/authorized"
-            scope: user.purchase,user.cart
+            redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
+            scope: user.purchases,user.cart
+
         provider:
+
           spring:
             authorization-uri: http://localhost:9000/oauth2/authorize
             token-uri: http://localhost:9000/oauth2/token
