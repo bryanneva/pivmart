@@ -2,9 +2,12 @@ package io.pivotal.apigateway.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.web.server.SecurityWebFilterChain;
+
+import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebFluxSecurity
@@ -18,15 +21,17 @@ public class SecurityConfig {
                 .csrf().disable()
 
                 .authorizeExchange()
-//                    .pathMatchers( HttpMethod.POST, "/api/**" ).authenticated()
+                    .pathMatchers( HttpMethod.POST, "/api/**" ).authenticated()
 //                    .pathMatchers( HttpMethod.GET, "/api/**" ).permitAll()
 //                    .pathMatchers( "/**", "/static/**", "/static/js/**", "/manifest.json", "/favicon.ico", "/authorize", "/authorized" ).permitAll()
 //                    .pathMatchers( "/login/oauth2/code/**" ).permitAll()
-                    .anyExchange().authenticated()
+                    .anyExchange().permitAll()
                         .and()
 
-                .oauth2Client()
-                    .and()
+                .httpBasic()
+                    .disable()
+
+                .oauth2Client( withDefaults() )
 
                 .build();
     }

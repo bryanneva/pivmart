@@ -58,8 +58,8 @@ spring:
         provider:
 
           spring:
-            authorization-uri: http://auth-server:9000/oauth2/authorize
-            token-uri: http://auth-server:9000/oauth2/token
+            authorization-uri: http://localhost:9000/oauth2/authorize
+            token-uri: http://localhost:9000/oauth2/token
 
 #cf bind-service pivmart-main pivmart-gateway -c '{ "routes": [{"uri": "lb://pivmart-main.apps.internal", "predicates": ["Path=/api/products/**,/api/catalogs/**"], "filters": ["StripPrefix=0"]}] }'
 #cf bind-service catalog-browser-pivmart pivmart-gateway -c '{ "routes": [{"uri": "lb://catalog-browser-pivmart.apps.internal", "order": 100, "predicates": ["Path=/**"], "filters": ["StripPrefix=0"]}] }'
