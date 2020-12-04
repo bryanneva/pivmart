@@ -7,8 +7,6 @@ import org.springframework.security.config.annotation.web.reactive.EnableWebFlux
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 
-import static org.springframework.security.config.Customizer.withDefaults;
-
 @Configuration
 @EnableWebFluxSecurity
 public class SecurityConfig {
@@ -28,10 +26,15 @@ public class SecurityConfig {
                     .anyExchange().permitAll()
                         .and()
 
-                .httpBasic()
-                    .disable()
+//                .httpBasic()
+//                    .disable()
+//
+//                .formLogin( withDefaults() )
 
-                .oauth2Client( withDefaults() )
+//                .oauth2Client( withDefaults() )
+
+                    .oauth2Login()
+                        .and()
 
                 .build();
     }

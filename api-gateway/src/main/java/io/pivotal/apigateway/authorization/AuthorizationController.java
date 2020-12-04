@@ -17,14 +17,15 @@ package io.pivotal.apigateway.authorization;
 
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.annotation.RegisteredOAuth2AuthorizedClient;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 import static org.springframework.security.oauth2.client.web.reactive.function.client.ServerOAuth2AuthorizedClientExchangeFilterFunction.oauth2AuthorizedClient;
 
-@Controller
+@RestController
 public class AuthorizationController {
 
     private final WebClient webClient;
@@ -36,8 +37,9 @@ public class AuthorizationController {
 
     }
 
-    @GetMapping( value = "/authorize", params = "grant_type=authorization_code" )
+    @PostMapping( value = "/authorize", params = "grant_type=authorization_code" )
     public Mono<String[]> authorizationCodeGrant(
+            @RequestBody Credentials credentials,
             @RegisteredOAuth2AuthorizedClient( "web-client-authorization-code" ) OAuth2AuthorizedClient authorizedClient
     ) {
 
@@ -47,6 +49,28 @@ public class AuthorizationController {
                 .attributes( oauth2AuthorizedClient( authorizedClient ) )
                 .retrieve()
                 .bodyToMono( String[].class );
+    }
+
+    static class Credentials {
+
+        private final String username;
+        private final String password;
+
+        Credentials( String username, String password ) {
+
+            this.username = username;
+            this.password = password;
+
+        }
+
+        public String getUsername() {
+            return username;
+        }
+
+        public String getPassword() {
+            return password;
+        }
+
     }
 
 }

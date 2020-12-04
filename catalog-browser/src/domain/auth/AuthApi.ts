@@ -1,6 +1,6 @@
 export class AuthApi {
   login(usermame: string, password: string): Promise<any> {
-    return fetch('/auth/login', {
+    return fetch('/authorize?grant_type=authorization_code', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

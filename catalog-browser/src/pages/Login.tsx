@@ -11,8 +11,8 @@ export const Login: React.FC<Props> = ({gateway}) => {
   const [password, setPassword] = useState<string>("");
 
   const login = (event: any) => {
-    gateway.authApi.login(username, password)
     event.preventDefault();
+    gateway.authApi.login(username, password)
   };
 
   return (
