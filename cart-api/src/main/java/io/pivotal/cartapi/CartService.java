@@ -1,5 +1,6 @@
 package io.pivotal.cartapi;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.stereotype.Service;
 
@@ -7,6 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
+@Slf4j
 public class CartService {
     private CartRepository cartRepository;
     private StreamBridge streamBridge;
@@ -21,6 +23,7 @@ public class CartService {
     }
 
     public CartItem add(Product product) {
+        log.debug( "Product={}", product);
         return cartRepository.save(CartItem.builder()
                 .product(product)
                 .quantity(1)

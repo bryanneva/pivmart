@@ -1,11 +1,15 @@
 package io.pivotal.apigateway.config;
 
+import org.springframework.boot.actuate.autoconfigure.security.reactive.EndpointRequest;
+import org.springframework.boot.autoconfigure.security.reactive.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.web.server.SecurityWebFilterChain;
+
+import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebFluxSecurity
@@ -16,25 +20,19 @@ public class SecurityConfig {
 
         return http
 
+                .cors().disable()
+
                 .csrf().disable()
 
-                .authorizeExchange()
-                    .pathMatchers( HttpMethod.POST, "/api/**" ).authenticated()
-//                    .pathMatchers( HttpMethod.GET, "/api/**" ).permitAll()
-//                    .pathMatchers( "/**", "/static/**", "/static/js/**", "/manifest.json", "/favicon.ico", "/authorize", "/authorized" ).permitAll()
-//                    .pathMatchers( "/login/oauth2/code/**" ).permitAll()
-                    .anyExchange().permitAll()
-                        .and()
+                .authorizeExchange( authorizeExchange -> authorizeExchange
+                        .matchers( EndpointRequest.toAnyEndpoint(), PathRequest.toStaticResources().atCommonLocations() ).permitAll()
+                        .pathMatchers( HttpMethod.POST, "/api/cart" ).hasAuthority( "SCOPE_user.cart" )
+                        .pathMatchers( HttpMethod.DELETE, "/api/cart/**" ).hasAuthority( "SCOPE_user.cart" )
+                        .pathMatchers( HttpMethod.GET, "/api/purchases" ).hasAuthority( "SCOPE_user.purchases" )
+                        .anyExchange().permitAll()
+                )
 
-//                .httpBasic()
-//                    .disable()
-//
-//                .formLogin( withDefaults() )
-
-//                .oauth2Client( withDefaults() )
-
-                    .oauth2Login()
-                        .and()
+                .oauth2Login( withDefaults() )
 
                 .build();
     }

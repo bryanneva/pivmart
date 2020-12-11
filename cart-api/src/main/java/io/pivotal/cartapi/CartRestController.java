@@ -32,7 +32,7 @@ public class CartRestController {
         return cartService.get();
     }
 
-    @PostMapping("checkout")
+    @PostMapping("/checkout")
     public ResponseEntity checkOut() {
         cartService.checkOut();
         return ResponseEntity.ok().build();

@@ -10,20 +10,29 @@ export class CartApi {
   add(product: Product): Promise<CartItem> {
     return fetch('/api/cart', {
       method: 'POST',
+      credentials: 'include',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
       },
       body: JSON.stringify(product)
+    })
+        .then(response => response.json())
+        .catch(e => console.error(e) );
+  }
+
+  remove(id: string): Promise<void> {
+    return fetch(`/api/cart/${id}`, {
+      method: 'DELETE',
+      mode: 'no-cors'
     })
       .then(response => response.json());
   }
 
-  remove(id: string): Promise<void> {
-    return fetch(`/api/cart/${id}`, {method: 'DELETE'})
-      .then(response => response.json());
-  }
-
   checkOut() {
-    fetch('/api/cart/checkout', {method: 'POST'});
+    fetch('/api/cart/checkout', {
+      method: 'POST',
+      mode: 'no-cors'
+    });
   }
 }

@@ -1,7 +1,9 @@
 package io.pivotal.apigateway.config;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.security.oauth2.client.ReactiveOAuth2AuthorizedClientManager;
 import org.springframework.security.oauth2.client.ReactiveOAuth2AuthorizedClientProvider;
 import org.springframework.security.oauth2.client.ReactiveOAuth2AuthorizedClientProviderBuilder;
@@ -15,7 +17,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 public class WebClientConfig {
 
     @Bean
-    WebClient webClient( ReactiveOAuth2AuthorizedClientManager authorizedClientManager ) {
+    WebClient webClient( @Qualifier( "authorizedClientManager") ReactiveOAuth2AuthorizedClientManager authorizedClientManager ) {
 
         ServerOAuth2AuthorizedClientExchangeFilterFunction oauth =
                 new ServerOAuth2AuthorizedClientExchangeFilterFunction( authorizedClientManager );
@@ -27,6 +29,7 @@ public class WebClientConfig {
     }
 
     @Bean
+    @Primary
     ReactiveOAuth2AuthorizedClientManager authorizedClientManager(
             ReactiveClientRegistrationRepository clientRegistrationRepository,
             ServerOAuth2AuthorizedClientRepository authorizedClientRepository
@@ -35,6 +38,7 @@ public class WebClientConfig {
         ReactiveOAuth2AuthorizedClientProvider authorizedClientProvider =
                 ReactiveOAuth2AuthorizedClientProviderBuilder.builder()
                         .authorizationCode()
+                        .refreshToken()
                         .clientCredentials()
                         .build();
 

@@ -18,6 +18,7 @@ public class SecurityConfig {
                 .authorizeExchange()
                     .matchers( EndpointRequest.toAnyEndpoint() ).permitAll()
                     .pathMatchers( HttpMethod.POST,"/api/cart" ).hasAuthority( "SCOPE_user.cart" )
+                    .pathMatchers( HttpMethod.DELETE,"/api/cart/**" ).hasAuthority( "SCOPE_user.cart" )
                     .pathMatchers( HttpMethod.GET, "/api/cart" ).permitAll()
                     .anyExchange().authenticated()
                         .and()

@@ -1,0 +1,18 @@
+logging.level:
+  io.github.resilience4j: DEBUG
+  org.springframework.cloud.circuitbreaker: DEBUG
+  org.springframework.cloud.contract: DEBUG
+  org.springframework.web: DEBUG
+
+server.port: 8082
+
+spring:
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/auth/realms/master
+
+productapi.url: ${PRODUCT_API_URL:http://localhost:8081/}
+

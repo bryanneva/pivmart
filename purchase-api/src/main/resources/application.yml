@@ -7,14 +7,16 @@ logging:
     org.springframework.web: debug
 
 spring:
+
   cloud:
     stream:
       bindings:
         checkoutListener-in-0:
           destination: cart-exchange
           group: purchase-api
+
   security:
     oauth2:
       resourceserver:
         jwt:
-          jwk-set-uri: http://auth-server:9000/oauth2/jwks
+          issuer-uri: http://localhost:8080/auth/realms/master

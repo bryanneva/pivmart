@@ -4,10 +4,11 @@ server:
 
 logging:
   level:
-    org.springframework.cloud.stream: debug
-    org.springframework.security: debug
-    org.springframework.security.oauth2: debug
-    org.springframework.web: debug
+    org.springframework.cloud.stream: DEBUG
+    org.springframework.security: DEBUG
+    org.springframework.security.oauth2: DEBUG
+    org.springframework.web: DEBUG
+    io.pivotal.cartapi: DEBUG
 
 spring:
   cloud:
@@ -20,4 +21,4 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          jwk-set-uri: http://auth-server:9000/oauth2/jwks
+          issuer-uri: http://localhost:8080/auth/realms/master

@@ -2,10 +2,10 @@ server:
   port: 8765
 
 logging.level:
-  org.springframework.cloud.gateway: INFO
-  org.springframework.security: DEBUG
-  org.springframework.security.oauth2: DEBUG
-  org.springframework.web: DEBUG
+  org.springframework.cloud.gateway: WARN
+  org.springframework.security: TRACE
+  org.springframework.security.oauth2: TRACE
+  org.springframework.web: INFO
 
 spring:
 
@@ -13,31 +13,37 @@ spring:
 
     gateway:
 
+      default-filters:
+        - TokenRelay=
+
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "*"
+            allowedMethods:
+              - GET
+
       routes:
         - id: pivmart-main
           uri: lb://pivmart-main
           predicates:
-            - Path=/api/products/**,/api/catalogs/**
-          filters:
-            - TokenRelay=
+            - Path=/api/products,/api/products/**,/api/catalogs,/api/catalogs/**
         - id: pivmart-cart-api
           uri: lb://pivmart-cart-api
           predicates:
-            - Path=/api/cart/**
+            - Path=/api/cart,/api/cart/**
           filters:
-            - TokenRelay=
+            - SecureHeaders=
         - id:  purchase-api
           uri: lb://pivmart-purchase-api
           predicates:
-            - Path=/api/purchases/**
+            - Path=/api/purchases,/api/purchases/**
           filters:
-            - TokenRelay=
+            - SecureHeaders=
         - id: pivmart-ui
           uri: http://localhost:3000
           predicates:
             - Path=/**
-          filters:
-            - TokenRelay=
 
   security:
 
@@ -47,19 +53,15 @@ spring:
 
         registration:
 
-          web-client-authorization-code:
+          pivmart:
             provider: keycloak
             client-id: pivmart
             client-secret: 77639fd7-a70c-4126-8816-a7d19a1942d0
             authorization-grant-type: authorization_code
             redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
-            scope: user.purchases,user.cart
+            scope: openid,roles,profile,email,user.purchases,user.cart
 
         provider:
-
-          spring:
-            authorization-uri: http://localhost:9000/oauth2/authorize
-            token-uri: http://localhost:9000/oauth2/token
 
           keycloak:
             issuer-uri: http://localhost:8080/auth/realms/master
